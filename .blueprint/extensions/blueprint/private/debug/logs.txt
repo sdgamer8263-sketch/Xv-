@@ -1,0 +1,522 @@
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+
+   INFO  The [public/storage] link has been connected to [storage/app/public].  
+
+
+   INFO  Application is now in maintenance mode.  
+
+
+   INFO  Seeding database.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+
+   INFO  Application is now live.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+rm: cannot remove '/var/www/pterodactyl/routes/blueprint/web/resourcemanager.php': No such file or directory
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/resourcemanager/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/sagaautosuspension/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+rm: cannot remove '/var/www/pterodactyl/routes/blueprint/client/minecraftplayermanager.php': No such file or directory
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+rm: cannot remove '/var/www/pterodactyl/routes/blueprint/web/modrinthbrowser.php': No such file or directory
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+ln: failed to create symbolic link '/var/www/pterodactyl/app/BlueprintFramework/Extensions/modrinthbrowser': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/resources/scripts/blueprint/extensions/modrinthbrowser': File exists
+NAME: Plugins
+PATH: /plugins
+TYPE: server
+COMP: server/modrinth/ModrinthBrowserContainer
+IDEN: ModrinthbrowserNjbhnrelza
+PERM: 
+ADMI: false
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/modrinthbrowser/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+ln: failed to create symbolic link '/var/www/pterodactyl/app/BlueprintFramework/Extensions/modrinthbrowser': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/resources/scripts/blueprint/extensions/modrinthbrowser': File exists
+NAME: Plugins
+PATH: /plugins
+TYPE: server
+COMP: server/modrinth/ModrinthBrowserContainer
+IDEN: ModrinthbrowserTfjaaenyru
+PERM: 
+ADMI: false
+ln: failed to create symbolic link '/var/www/pterodactyl/public/assets/extensions/modrinthbrowser': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/storage/extensions/modrinthbrowser': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/public/fs/modrinthbrowser': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/modrinthbrowser/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+ln: failed to create symbolic link '/var/www/pterodactyl/resources/scripts/blueprint/extensions/sagaautosuspension': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/public/assets/extensions/sagaautosuspension': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/storage/extensions/sagaautosuspension': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/public/fs/sagaautosuspension': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/sagaautosuspension/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+rm: cannot remove '/var/www/pterodactyl/routes/blueprint/client/sagaminecraftmodpackinstaller.php': No such file or directory
+NAME: Modpacks
+PATH: /modpacks
+TYPE: server
+COMP: ModpacksContainer
+IDEN: SagaminecraftmodpackinstallerHkhqauwwjp
+PERM: 'file.*'
+ADMI: 
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/sagaminecraftmodpackinstaller/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+rm: cannot remove '/var/www/pterodactyl/routes/blueprint/client/versionchanger.php': No such file or directory
+NAME: Versions
+PATH: /minecraft/versions
+TYPE: server
+COMP: VersionChangerContainer
+IDEN: VersionchangerLciiqeerhf
+PERM: 'file.update'
+ADMI: 
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/versionchanger/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+NAME: Properties Manager
+PATH: /properties-manager
+TYPE: server
+COMP: ServerPropertiesManagerContainer
+IDEN: ServerpropsmanagerIeorqofmff
+PERM: 
+ADMI: 
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/serverpropsmanager/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+rm: cannot remove '/var/www/pterodactyl/routes/blueprint/client/subdomainmanager.php': No such file or directory
+rm: cannot remove '/var/www/pterodactyl/routes/blueprint/web/subdomainmanager.php': No such file or directory
+NAME: Subdomain
+PATH: /subdomain
+TYPE: server
+COMP: SubdomainContainer
+IDEN: SubdomainmanagerTnybmatwgc
+PERM: 
+ADMI: false
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/subdomainmanager/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+NAME: MOTD Maker
+PATH: /motd-maker
+TYPE: server
+COMP: MotdMakerContainer
+IDEN: MotdmakerVzffuiilfo
+PERM: 
+ADMI: 
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/motdmaker/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+rm: cannot remove '/var/www/pterodactyl/routes/blueprint/client/eggchanger.php': No such file or directory
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/eggchanger/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+ln: failed to create symbolic link '/var/www/pterodactyl/app/BlueprintFramework/Extensions/minecraftplayermanager': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/resources/scripts/blueprint/extensions/minecraftplayermanager': File exists
+NAME: Players
+PATH: /minecraft/players
+TYPE: server
+COMP: PlayerManagerContainer
+IDEN: MinecraftplayermanagerGolkgoangk
+PERM: 'control.console'
+ADMI: 
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/minecraftplayermanager/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+ln: failed to create symbolic link '/var/www/pterodactyl/app/BlueprintFramework/Extensions/eggchanger': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/resources/scripts/blueprint/extensions/eggchanger': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/public/extensions/eggchanger': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/public/assets/extensions/eggchanger': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/storage/extensions/eggchanger': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/public/fs/eggchanger': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/eggchanger/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+rm: cannot remove 'routes/blueprint/application/eggchanger.php': No such file or directory
+rm: cannot remove 'routes/blueprint/web/eggchanger.php': No such file or directory
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+rm: cannot remove '/var/www/pterodactyl/routes/blueprint/client/eggchanger.php': No such file or directory
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/eggchanger/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+ln: failed to create symbolic link '/var/www/pterodactyl/app/BlueprintFramework/Extensions/eggchanger': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/resources/scripts/blueprint/extensions/eggchanger': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/public/extensions/eggchanger': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/public/assets/extensions/eggchanger': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/storage/extensions/eggchanger': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/public/fs/eggchanger': File exists
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/eggchanger/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+rm: cannot remove '/var/www/pterodactyl/routes/blueprint/client/serversplitter.php': No such file or directory
+NAME: Splitter
+PATH: /splitter
+TYPE: server
+COMP: ServerSplitterContainer
+IDEN: ServersplitterUvgtpwvwpx
+PERM: 'splitter.read'
+ADMI: 
+ln: failed to create symbolic link '/var/www/pterodactyl/.blueprint/extensions/serversplitter/private': File exists
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+
+/var/www/pterodactyl/.env: line 19: unexpected EOF while looking for matching ``'
+rm: cannot remove 'routes/blueprint/application/subdomainmanager.php': No such file or directory
+
+   ERROR  The [public/storage] link already exists.  
+
+
+
+   INFO  Blade templates cached successfully.  
+
+
+   INFO  Configuration cached successfully.  
+
+
+   INFO  Route cache cleared successfully.  
+
+
+   INFO  Application cache cleared successfully.  
+
+Flushed Blueprint stylesheet and scripts cache.
+   INFO  Broadcasting queue restart signal.  
+

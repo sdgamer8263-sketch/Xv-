@@ -1,0 +1,1 @@
+../../../.blueprint/extensions/resourcemanager/routers/web.php

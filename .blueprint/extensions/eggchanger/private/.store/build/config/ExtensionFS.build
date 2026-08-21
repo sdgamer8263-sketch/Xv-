@@ -1,0 +1,1 @@
+/* EggchangerStart */ 'blueprint:eggchanger' => [ 'driver' => 'local', 'root' => storage_path('extensions/eggchanger'), 'url' => env('APP_URL') . '/fs/extensions/eggchanger', 'visibility' => 'public', 'throw' => false, ], 'blueprint_private:eggchanger' => [ 'driver' => 'local', 'root' => storage_path('.extensions/eggchanger'), 'throw' => false, ], /* EggchangerEnd */

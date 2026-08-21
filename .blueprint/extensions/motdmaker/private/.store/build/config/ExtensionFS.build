@@ -1,0 +1,1 @@
+/* MotdmakerStart */ 'blueprint:motdmaker' => [ 'driver' => 'local', 'root' => storage_path('extensions/motdmaker'), 'url' => env('APP_URL') . '/fs/extensions/motdmaker', 'visibility' => 'public', 'throw' => false, ], 'blueprint_private:motdmaker' => [ 'driver' => 'local', 'root' => storage_path('.extensions/motdmaker'), 'throw' => false, ], /* MotdmakerEnd */

@@ -1,0 +1,35 @@
+info:
+  name: "Egg Changer"
+  identifier: "eggchanger"
+  description: "Allow the user to change the egg/nest of any server."
+  flags: "hasInstallScript,hasRemovalScript"
+  version: "1.1.0"
+  target: "beta-2024-12"
+  author: "0x7d8"
+  icon: "eggchanger_icon.jpg"
+
+admin:
+  view: "admin.blade.php"
+  controller: "controller.php"
+  css: ""
+  wrapper: ""
+
+dashboard:
+  css: ""
+  wrapper: ""
+  components: "components"
+
+data:
+  public: "public"
+  directory: "data"
+
+requests:
+  views: ""
+  controllers: "controllers"
+  routers:
+    application: ""
+    client: "router/client.php"
+    web: ""
+
+database:
+  migrations: "migrations"

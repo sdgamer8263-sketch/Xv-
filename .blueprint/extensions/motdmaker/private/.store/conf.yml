@@ -1,0 +1,36 @@
+info:
+  name: "MOTD Maker"
+  identifier: "motdmaker"
+  description: "Create, preview, and save your Minecraft server MOTD from the panel."
+  flags: ""
+  version: "1.1.0"
+  target: "beta-2026-01"
+  author: "WammuHost"
+  icon: "logo.png"
+  website: "https://wammuhost.com"
+
+admin:
+  view: "admin.blade.php"
+  controller: ""
+  css: ""
+  wrapper: ""
+
+dashboard:
+  css: ""
+  wrapper: ""
+  components: "components"
+
+data:
+  directory: ""
+  public: ""
+
+requests:
+  views: ""
+  app: ""
+  routers:
+    application: ""
+    client: ""
+    web: ""
+
+database:
+  migrations: ""

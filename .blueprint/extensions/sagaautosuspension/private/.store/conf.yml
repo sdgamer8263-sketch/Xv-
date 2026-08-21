@@ -1,0 +1,37 @@
+info:
+  name: "Auto Suspension"
+  identifier: "sagaautosuspension"
+  description: "Add Expiration Date to servers on Pterodactyl Panel to Auto Suspend"
+  flags: "hasInstallScript, hasRemovalScript"
+  version: "1.0"
+  target: "beta-2024-12"
+  author: "SAGA"
+  icon: "assets/saga.jpg"
+  website: "https://bbyb.it/saga"
+
+admin:
+  view: "view.blade.php"
+  controller: ""
+  css: ""
+  wrapper: ""
+
+dashboard:
+  css: ""
+  wrapper: ""
+  components: "components"
+
+data:
+  directory: "private"
+  public: ""
+  console: ""
+
+requests:
+  views: ""
+  app: ""
+  routers:
+    application: ""
+    client: ""
+    web: ""
+
+database:
+  migrations: "migrations"

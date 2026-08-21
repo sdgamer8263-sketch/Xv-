@@ -1,0 +1,275 @@
+/routes/api-client.php
+Please paste this line to /routes/api-client.php above the Route::group(['prefix' => '/account'], function () { line
+
+/*
+|--------------------------------------------------------------------------
+| Available Eggs API
+|--------------------------------------------------------------------------
+|
+| Endpoint: /api/eggs
+|
+*/
+Route::get('/eggs', 'AvailableEggsController@index');
+
+
+Please paste this line to /routes/api-client.php above the Route::group(['prefix' => '/settings'], function () { line 
+
+Route::group(['prefix' => 'eggs'], function () {
+	Route::get('/', 'Servers\EggChangerController@index');
+	Route::post('/change', 'Servers\EggChangerController@change');
+});
+
+
+
+
+/routes/admin.php
+Please insert this codes to /routes/admin.php to the bottom of the file
+
+/*
+|--------------------------------------------------------------------------
+| Egg Changer Routes
+|--------------------------------------------------------------------------
+|
+| Endpoint: /admin/eggchanger
+|
+*/
+Route::group(['prefix' => 'eggchanger'], function () {
+    Route::get('/', 'EggChangerController@index')->name('admin.eggchanger');
+
+    Route::post('/availables', 'EggChangerController@availables')->name('admin.eggchanger.availables');
+    Route::post('/defaults', 'EggChangerController@defaults')->name('admin.eggchanger.defaults');
+	
+	Route::post('/{server_id}/availables', 'EggChangerController@serverAvailables')->name('admin.eggchanger.server.availables');
+});
+
+
+
+
+/routes/api-application.php
+Please insert this codes to /routes/server.php above the // Database Management Endpoint line
+
+// Egg Changer Endpoint
+Route::group(['prefix' => '/{server}/eggchanger'], function () {
+	Route::get('/', 'Servers\EggChangerController@index')->name('api.application.servers.eggchanger');
+
+	Route::post('/add', 'Servers\EggChangerController@add')->name('api.application.servers.eggchanger.add');
+
+	Route::delete('/remove', 'Servers\EggChangerController@remove')->name('api.application.servers.eggchanger.remove');
+});
+			
+			
+						
+						
+/resources/themes/pterodactyl/layouts/admin.blade.php
+Please paste this lines to the /resources/themes/pterodactyl/layouts/admin.blade.php above the <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.nodes') ?: 'active' }}"> line
+
+<li class="{{ ! starts_with(Route::currentRouteName(), 'admin.eggchanger') ?: 'active' }}">
+	<a href="{{ route('admin.eggchanger') }}">
+		<i class="fa fa-exchange"></i> <span>Egg Changer</span>
+	</a>
+</li>
+
+
+
+
+/resources/themes/pterodactyl/admin/eggs/view.blade.php
+Please paste this codes to /resources/themes/pterodactyl/admin/eggs/view.blade.php under the startup command form. (image1.png)
+
+<div class="col-xs-12">
+	<div class="form-group">
+		<label for="pThumbnail" class="control-label">Thumbnail URL</label>
+		<input type="text" id="pThumbnail" name="thumbnail" class="form-control" value="{{ $egg->thumbnail }}" placeholder="https://mydomain.tld/server.png">
+	</div>
+</div>
+
+
+
+
+/app/Http/Requests/Admin/Egg/EggFormRequest.php
+Please paste this line to /app/Http/Requests/Admin/Egg/EggFormRequest.php under the 'config_files' => 'required_without:config_from|nullable|json', line
+
+'thumbnail' => 'sometimes|max:191',
+
+
+
+
+/app/Models/Egg.php
+Please paste this line to /app/Models/Egg.php under the 'copy_script_from', line
+
+'thumbnail',
+
+
+Please paste this line to /app/Models/Egg.php under the 'config_files' => 'required_without:config_from|nullable|json', line
+
+'thumbnail' => 'nullable|string',
+
+
+
+
+/app/Services/Servers/ServerCreationService.php
+Please add this lines to /app/Services/Servers/ServerCreationService.php above the return $server; line
+
+$available_eggs = \Illuminate\Support\Facades\DB::table('default_eggs')->get();
+$default_eggs = [];
+foreach ($available_eggs as $available_egg) {
+	array_push($default_eggs, $available_egg->egg_id);
+}
+\Illuminate\Support\Facades\DB::table('servers')->where('id', '=', $server->id)->update(['available_eggs' => serialize($default_eggs)]);
+
+
+
+
+/app/Http/Controllers/Admin/Servers/ServerViewController.php
+Please paste this line to /app/Http/Controllers/Admin/Servers/ServerViewController.php above the return $this->view->make('admin.servers.view.manage', [ line
+
+$available_eggs = \Illuminate\Support\Facades\DB::table('available_eggs')->get();
+
+foreach ($available_eggs as $key => $available_egg) {
+	$egg = \Illuminate\Support\Facades\DB::table('eggs')->where('id', '=', $available_egg->egg_id)->get();
+	$available_eggs[$key]->egg = $egg[0];
+}
+
+
+Please paste this line to /app/Http/Controllers/Admin/Servers/ServerViewController.php under the 'canTransfer' => $canTransfer, line
+
+'available_eggs' => $available_eggs,
+
+
+
+
+/resources/views/admin/servers/view/manage.blade.php
+Please insert this codes to /resources/views/admin/servers/view/manage.blade.php above the @if(!$server->suspended) line
+
+<div class="col-sm-4">
+	<div class="box box-info">
+		<div class="box-header with-border">
+			<h3 class="box-title">Selectable Eggs</h3>
+		</div>
+		<form action="{{ route('admin.eggchanger.server.availables', $server->id) }}" method="POST">
+			<div class="box-body">
+				<div class="form-group">
+					<label for="selectableEggs">Selectable Eggs</label>
+					<select class="form-control" multiple id="selectableEggs" name="selectableEggs[]">
+						@foreach ($available_eggs as $available_egg)
+							<option value="{{ $available_egg->id }}" {{ in_array($available_egg->egg_id, unserialize($server->available_eggs)) ? 'selected' : '' }}>{{ $available_egg->egg->name }}</option>
+						@endforeach
+					</select>
+				</div>
+			</div>
+			<div class="box-footer">
+				{!! csrf_field() !!}
+				<button type="submit" class="btn btn-success">Save</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+Please insert this codes to /resources/views/admin/servers/view/manage.blade.php under the {!! Theme::js('vendor/lodash/lodash.js') !!} line
+
+<script>
+	$('#selectableEggs').select2({
+		placeholder: 'Select Eggs'
+	});
+</script>
+
+
+
+
+/app/Services/Eggs/EggDeletionService.php
+Please paste this codes to /app/Services/Eggs/EggDeletionService.php above the return $this->repository->delete($egg); line
+
+\Illuminate\Support\Facades\DB::table('available_eggs')->where('egg_id', '=', $egg)->delete();
+\Illuminate\Support\Facades\DB::table('default_eggs')->where('egg_id', '=', $egg)->delete();
+
+
+
+
+/app/Models/Permission.php
+Please insert this line to /app/Models/Permission.php above the 'websocket' => [ line
+
+'eggchanger' => [
+	'description' => 'Manage egg changer.',
+	'keys' => [
+		'manage' => 'Change server egg.',
+	],
+],
+
+
+
+
+/resources/scripts/components/App.tsx
+Please paste this line to /resources/scripts/components/App.tsx under the import { setupInterceptors } from '@/api/interceptors'; line
+
+import EggsRouter from '@/routers/EggsRouter';
+
+
+Please paste this lines to /resources/scripts/components/App.tsx under the <Route path="/auth" component={AuthenticationRouter}/> line
+
+<Route path="/eggs" component={EggsRouter} />
+
+
+
+
+/resources/scripts/components/NavigationBar.tsx
+Please paste this code to /resources/scripts/components/NavigationBar.tsx (image2.png)
+
+, faExchangeAlt
+
+
+Please paste this lines to /resources/scripts/components/NavigationBar.tsx above the ... line
+
+<NavLink to={'/eggs'}>
+	<FontAwesomeIcon icon={faExchangeAlt} />
+</NavLink>
+
+
+
+
+/resources/scripts/routers/ServerRouter.tsx
+Please paste this line to /resources/scripts/routers/ServerRouter.tsx under the import requireServerPermission from '@/hoc/requireServerPermission'; line
+
+import EggsContainer from '@/components/server/eggs/EggsContainer';
+
+
+Please paste this lines to /resources/scripts/routers/ServerRouter.tsx to above the <Can action={[ 'settings.*', 'file.sftp' ]} matchAny> line
+
+<Can action={'eggchanger.*'}>
+	<NavLink to={`${match.url}/eggs`}>Egg Changer</NavLink>
+</Can>
+
+
+Please paste this line to /resources/scripts/routers/ServerRouter.tsx above the <Route path={'*'} component={NotFound}/> line
+
+<Route path={`${match.path}/eggs`} exact>
+	<RequireServerPermission permissions={'eggchanger.*'}>
+		<EggsContainer />
+	</RequireServerPermission>
+</Route>
+
+
+
+
+API Usage:
+
+GET https://mydomain.tld/api/application/servers/{server_id}/eggchanger
+Response: available eggs in selected server
+
+POST https://mydomain.tld/api/application/servers/{server_id}/eggchanger/add
+Params: new_ids: array - New egg ids in array
+Response: error or success: true
+
+DELETE https://mydomain.tld/api/application/servers/{server_id}/eggchanger/remove
+Params: remove_ids: array - Remove egg ids in array
+Response: error or success: true
+
+
+
+
+After all code inserted to code and app and resources and database and vendor folder pasted. Please run this commands (node is required, min version: v10.x [node -v]):
+- npm i -g yarn
+- cd /var/www/pterodactyl
+- yarn install
+- yarn run build:production
+- php artisan route:clear && php artisan cache:clear && php artisan view:clear
+- php artisan migrate

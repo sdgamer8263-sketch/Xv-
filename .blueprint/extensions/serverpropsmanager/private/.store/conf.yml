@@ -1,0 +1,37 @@
+info:
+  name: "Server Properties Manager"
+  identifier: "serverpropsmanager"
+  description: "Feature-rich Java/Bedrock server.properties manager with auto detection and categorized controls."
+  flags: ""
+  version: "1.0.0"
+  target: "beta-2026-01"
+  author: "WammuHost"
+  icon: "logo.png"
+  website: "https://wammuhost.com"
+
+admin:
+  view: "admin.blade.php"
+  controller: ""
+  css: ""
+  wrapper: ""
+
+dashboard:
+  css: ""
+  wrapper: ""
+  components: "components"
+
+data:
+  directory: ""
+  public: ""
+
+requests:
+  views: ""
+  app: ""
+  routers:
+    application: ""
+    client: ""
+    web: ""
+
+database:
+  migrations: ""
+

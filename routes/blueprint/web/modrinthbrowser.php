@@ -1,0 +1,1 @@
+../../../.blueprint/extensions/modrinthbrowser/routers/web.php

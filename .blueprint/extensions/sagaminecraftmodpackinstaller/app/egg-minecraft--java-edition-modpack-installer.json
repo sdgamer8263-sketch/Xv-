@@ -1,0 +1,81 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2025-05-11T13:17:00+00:00",
+    "name": "Minecraft Java Modpack Installer",
+    "author": "modpack-installer@pterodactyl.io",
+    "description": "Egg for installing Minecraft: Java Edition modpacks",
+    "features": [],
+    "docker_images": {
+        "Alpine": "ghcr.io\/pterodactyl\/yolks:alpine"
+    },
+    "file_denylist": [],
+    "startup": "echo \"Modpack installation has started successfully\"",
+    "config": {
+        "files": "{}",
+        "startup": "{}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!/bin/ash\nmkdir -p /mnt/server\ncd /mnt/server || exit\n\napk add --no-cache --update curl bash jq openjdk11-jre-headless\necho \"Starting modpack installation for provider: ${MODPACK_PROVIDER}\"\n\nif [ \"${DELETE_SERVER_FILES}\" = \"true\" ]; then\n    echo \"Deleting existing server files...\"\n    find . -mindepth 1 -maxdepth 1 ! -name 'server.properties' ! -name 'pterodactyl.properties' ! -name 'eula.txt' -exec rm -rf {} \\;\nfi\n\ninstall_minecraft_server() {\n    local MC_VERSION=$1\n    local MODLOADER=$2\n    local MODLOADER_VERSION=$3\n    \n    echo \"Installing Minecraft server version $MC_VERSION with $MODLOADER $MODLOADER_VERSION\"\n    \n    if [ -z \"$MODLOADER\" ] || [ \"$MODLOADER\" = \"null\" ] || [ \"$MODLOADER\" = \"vanilla\" ]; then\n        MODLOADER=\"VANILLA\"\n    else\n        MODLOADER=$(echo $MODLOADER | tr '[:lower:]' '[:upper:]')\n    fi\n    \n    echo \"Fetching build ID for $MODLOADER $MC_VERSION\"\n    local API_RESPONSE=$(curl -s \"https://mcjars.app/api/v2/builds/$MODLOADER/$MC_VERSION\")\n    local BUILD_ID=$(echo \"$API_RESPONSE\" | jq -r '.builds[0].id')\n    \n    if [ -z \"$BUILD_ID\" ] || [ \"$BUILD_ID\" = \"null\" ]; then\n        echo \"Failed to get build ID from API for $MODLOADER $MC_VERSION\"\n        echo \"API Response: $API_RESPONSE\"\n        return 1\n    fi\n    \n    echo \"Found build ID: $BUILD_ID for $MODLOADER $MC_VERSION\"\n    \n    echo \"yes\" | bash <(curl -s https://mcjars.app/install.sh) $BUILD_ID\n    \n    if [ $? -ne 0 ]; then\n        echo \"Failed to install Minecraft server\"\n        return 1\n    fi\n    \n    echo \"Successfully installed Minecraft server version $MC_VERSION with $MODLOADER\"\n    \n    if [ -f \"start.sh\" ]; then\n        echo \"Removing start.sh file\"\n        rm -f start.sh\n    fi\n    \n    return 0\n}\n\ncase \"${MODPACK_PROVIDER}\" in\n    \"curseforge\")\n        echo \"Installing CurseForge modpack...\"\n        \n        if [ -z \"$CF_API_KEY\" ]; then\n            echo \"CF_API_KEY not set, trying to get from environment\"\n            CF_API_KEY=\"${CURSEFORGE_API_KEY}\"\n            \n            if [ -z \"$CF_API_KEY\" ] && [ -f \"/var/www/pterodactyl/.env\" ]; then\n                echo \"CURSEFORGE_API_KEY not set, trying to get from .env file\"\n                CF_API_KEY=$(grep CURSEFORGE_API_KEY /var/www/pterodactyl/.env | cut -d '=' -f2)\n            fi\n        fi\n        \n        if [ -z \"$CF_API_KEY\" ]; then\n            echo \"ERROR: CurseForge API Key not found!\"\n            exit 1\n        fi\n        \n        echo \"Using CurseForge API Key: ${CF_API_KEY:0:5}...\"\n        \n        MODPACK_INFO=$(curl -s -H \"Accept: application/json\" -H \"x-api-key: $CF_API_KEY\" \"https://api.curseforge.com/v1/mods/${MODPACK_ID}/files/${MODPACK_VERSION_ID}\")\n        DOWNLOAD_URL=$(echo \"$MODPACK_INFO\" | jq -r '.data.downloadUrl')\n        \n        if [ -z \"$DOWNLOAD_URL\" ] || [ \"$DOWNLOAD_URL\" = \"null\" ]; then\n            echo \"Direct download URL not available, trying alternative method...\"\n            FILE_NAME=$(echo \"$MODPACK_INFO\" | jq -r '.data.fileName')\n            \n            if [ -z \"$FILE_NAME\" ] || [ \"$FILE_NAME\" = \"null\" ]; then\n                echo \"Could not get file name from API response\"\n                exit 1\n            fi\n            \n            ENCODED_FILE_NAME=$(echo \"$FILE_NAME\" | sed 's/ /%20/g' | sed 's/\\[/%5B/g' | sed 's/\\]/%5D/g' | sed 's/(/%28/g' | sed 's/)/%29/g')\n            ALT_DOWNLOAD_URL=\"https://edge.forgecdn.net/files/$(echo ${MODPACK_VERSION_ID} | cut -c 1-4)/$(echo ${MODPACK_VERSION_ID} | cut -c 5-)/${ENCODED_FILE_NAME}\"\n            echo \"Using alternative download URL: $ALT_DOWNLOAD_URL\"\n            DOWNLOAD_URL=\"$ALT_DOWNLOAD_URL\"\n        fi\n        \n        echo \"Downloading modpack from $DOWNLOAD_URL\"\n        curl -sSL \"$DOWNLOAD_URL\" -o modpack.zip\n        \n        \n        mkdir -p modpack_extract\n        unzip -qo modpack.zip -d modpack_extract\n        \n        \n        if [ -f \"modpack_extract/manifest.json\" ]; then\n            echo \"Processing manifest.json\"\n            \n            if [ -d \"modpack_extract/overrides\" ]; then\n                echo \"Moving overrides to server root\"\n                cp -rf modpack_extract/overrides/. .\n            fi\n            \n            \n            if [ -d \"modpack_extract/server-overrides\" ]; then\n                echo \"Moving server-overrides to server root\"\n                cp -rf modpack_extract/server-overrides/. .\n            fi\n            \n            \n            mkdir -p mods\n            \n            \n            MINECRAFT_VERSION=$(jq -r '.minecraft.version' modpack_extract/manifest.json)\n            MODLOADER_ID=$(jq -r '.minecraft.modLoaders[0].id' modpack_extract/manifest.json)\n            \n            echo \"Minecraft Version: $MINECRAFT_VERSION\"\n            echo \"Mod Loader ID: $MODLOADER_ID\"\n            \n            MODLOADER=$(echo $MODLOADER_ID | cut -d'-' -f1)\n            MODLOADER_VERSION=$(echo $MODLOADER_ID | cut -d'-' -f2)\n            \n            echo \"Mod Loader: $MODLOADER\"\n            echo \"Mod Loader Version: $MODLOADER_VERSION\"\n            \n            install_minecraft_server \"$MINECRAFT_VERSION\" \"$MODLOADER\" \"$MODLOADER_VERSION\"\n            \n            echo \"Downloading mods from manifest\"\n            jq -c '.files[]' modpack_extract/manifest.json | while read -r mod; do\n                PROJECT_ID=$(echo \"$mod\" | jq -r '.projectID')\n                FILE_ID=$(echo \"$mod\" | jq -r '.fileID')\n                \n                echo \"Downloading mod: Project ID $PROJECT_ID, File ID $FILE_ID\"\n                \n                MOD_INFO=$(curl -s -H \"Accept: application/json\" -H \"x-api-key: $CF_API_KEY\" \"https://api.curseforge.com/v1/mods/$PROJECT_ID/files/$FILE_ID\")\n                MOD_DOWNLOAD_URL=$(echo \"$MOD_INFO\" | jq -r '.data.downloadUrl')\n                \n                if [ -z \"$MOD_DOWNLOAD_URL\" ] || [ \"$MOD_DOWNLOAD_URL\" = \"null\" ]; then\n                    echo \"Direct download URL not available for mod $PROJECT_ID:$FILE_ID, trying alternative method...\"\n                    MOD_FILE_NAME=$(echo \"$MOD_INFO\" | jq -r '.data.fileName')\n                    \n                    if [ -z \"$MOD_FILE_NAME\" ] || [ \"$MOD_FILE_NAME\" = \"null\" ]; then\n                        echo \"Could not get file name from API response for mod $PROJECT_ID:$FILE_ID\"\n                        continue\n                    fi\n                    \n                    ENCODED_MOD_FILE_NAME=$(echo \"$MOD_FILE_NAME\" | sed 's/ /%20/g' | sed 's/\\[/%5B/g' | sed 's/\\]/%5D/g' | sed 's/(/%28/g' | sed 's/)/%29/g')\n                    MOD_ALT_DOWNLOAD_URL=\"https://edge.forgecdn.net/files/$(echo ${FILE_ID} | cut -c 1-4)/$(echo ${FILE_ID} | cut -c 5-)/${ENCODED_MOD_FILE_NAME}\"\n                    echo \"Using alternative download URL for mod: $MOD_ALT_DOWNLOAD_URL\"\n                    MOD_DOWNLOAD_URL=\"$MOD_ALT_DOWNLOAD_URL\"\n                fi\n                \n                FILE_NAME=$(echo \"$MOD_INFO\" | jq -r '.data.fileName')\n                curl -sSL \"$MOD_DOWNLOAD_URL\" -o \"mods/$FILE_NAME\"\n                echo \"Downloaded: $FILE_NAME\"\n                \n                sleep 0.5\n            done\n        fi\n        ;;\n        \n    \"modrinth\")\n        echo \"Installing Modrinth modpack...\"\n        \n        MODPACK_INFO=$(curl -s \"https://api.modrinth.com/v2/project/${MODPACK_ID}/version/${MODPACK_VERSION_ID}\")\n        DOWNLOAD_URL=$(echo \"$MODPACK_INFO\" | jq -r '.files[0].url')\n        \n        if [ -z \"$DOWNLOAD_URL\" ] || [ \"$DOWNLOAD_URL\" = \"null\" ]; then\n            echo \"Failed to get download URL from Modrinth API\"\n            exit 1\n        fi\n        \n        echo \"Downloading modpack from $DOWNLOAD_URL\"\n        curl -sSL \"$DOWNLOAD_URL\" -o modpack.mrpack\n        \n        mv modpack.mrpack modpack.zip\n        \n        mkdir -p modpack_extract\n        unzip -qo modpack.zip -d modpack_extract\n        \n        if [ -f \"modpack_extract/modrinth.index.json\" ]; then\n            echo \"Processing modrinth.index.json\"\n            \n            if [ -d \"modpack_extract/overrides\" ]; then\n                echo \"Moving overrides to server root\"\n                cp -rf modpack_extract/overrides/. .\n            fi\n            \n            mkdir -p mods\n            \n            MINECRAFT_VERSION=$(jq -r '.dependencies.minecraft' modpack_extract/modrinth.index.json)\n            MODLOADER=\"fabric\"\n            MODLOADER_VERSION=$(jq -r '.dependencies.\"fabric-loader\" // .dependencies.\"forge\" // .dependencies.\"quilt-loader\" // .dependencies.\"neoforge\"' modpack_extract/modrinth.index.json)\n            \n            if jq -e '.dependencies.\"fabric-loader\"' modpack_extract/modrinth.index.json > /dev/null; then\n                MODLOADER=\"fabric\"\n                MODLOADER_VERSION=$(jq -r '.dependencies.\"fabric-loader\"' modpack_extract/modrinth.index.json)\n            elif jq -e '.dependencies.\"forge\"' modpack_extract/modrinth.index.json > /dev/null; then\n                MODLOADER=\"forge\"\n                MODLOADER_VERSION=$(jq -r '.dependencies.\"forge\"' modpack_extract/modrinth.index.json)\n            elif jq -e '.dependencies.\"quilt-loader\"' modpack_extract/modrinth.index.json > /dev/null; then\n                MODLOADER=\"quilt\"\n                MODLOADER_VERSION=$(jq -r '.dependencies.\"quilt-loader\"' modpack_extract/modrinth.index.json)\n            elif jq -e '.dependencies.\"neoforge\"' modpack_extract/modrinth.index.json > /dev/null; then\n                MODLOADER=\"neoforge\"\n                MODLOADER_VERSION=$(jq -r '.dependencies.\"neoforge\"' modpack_extract/modrinth.index.json)\n            fi\n            \n            echo \"Minecraft Version: $MINECRAFT_VERSION\"\n            echo \"Mod Loader: $MODLOADER\"\n            echo \"Mod Loader Version: $MODLOADER_VERSION\"\n            \n            install_minecraft_server \"$MINECRAFT_VERSION\" \"$MODLOADER\" \"$MODLOADER_VERSION\"\n            \n            echo \"Downloading mods from index\"\n            jq -c '.files[]' modpack_extract/modrinth.index.json | while read -r file; do\n                PATH_INFO=$(echo \"$file\" | jq -r '.path')\n                DOWNLOAD_URL=$(echo \"$file\" | jq -r '.downloads[0]')\n                ENV_SERVER=$(echo \"$file\" | jq -r '.env.server // \"required\"')\n                \n                if [ \"$ENV_SERVER\" = \"unsupported\" ]; then\n                    echo \"Skipping client-only file: $PATH_INFO\"\n                    continue\n                fi\n                \n                echo \"Downloading: $PATH_INFO\"\n                \n                DIR_PATH=$(dirname \"$PATH_INFO\")\n                if [ \"$DIR_PATH\" != \".\" ]; then\n                    mkdir -p \"$DIR_PATH\"\n                fi\n                \n                curl -sSL \"$DOWNLOAD_URL\" -o \"$PATH_INFO\"\n                echo \"Downloaded: $PATH_INFO\"\n                \n                sleep 0.5\n            done\n        fi\n        ;;\n        \n    \"feedthebeast\"|\"ftb\")\n        echo \"Installing FTB modpack...\"\n        \n        INSTALLER_NAME=\"serverinstall_${MODPACK_ID}_${MODPACK_VERSION_ID}\"\n        \n        echo \"Downloading FTB installer\"\n        DOWNLOAD_URL=\"https://api.feed-the-beast.com/v1/modpacks/public/modpack/${MODPACK_ID}/${MODPACK_VERSION_ID}/server/linux\"\n        \n        echo \"Download URL: $DOWNLOAD_URL\"\n        curl -sSL -o \"$INSTALLER_NAME\" \"$DOWNLOAD_URL\"\n        \n        if [ ! -f \"$INSTALLER_NAME\" ]; then\n            echo \"ERROR: Failed to download FTB installer\"\n            exit 1\n        fi\n        \n        chmod +x \"$INSTALLER_NAME\"\n        \n        echo \"Running FTB installer\"\n        ./$INSTALLER_NAME -auto -no-java\n        ;;\n        \n    *)\n        echo \"Unknown modpack provider: ${MODPACK_PROVIDER}\"\n        exit 1\n        ;;\nesac\n\n# Save manifest files to server root if they exist\nif [ -f \"modpack_extract/manifest.json\" ]; then\n    echo \"Saving manifest.json to server root\"\n    cp -f modpack_extract/manifest.json .\nfi\n\nif [ -f \"modpack_extract/modrinth.index.json\" ]; then\n    echo \"Saving modrinth.index.json to server root\"\n    cp -f modpack_extract/modrinth.index.json .\nfi\n\necho \"Modpack installation completed successfully\"\n\n\nrm -f modpack.zip\nrm -rf modpack_extract\nrm -f serverinstall_*",
+            "container": "eclipse-temurin:21-alpine",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "CurseForge API Key",
+            "description": "API key for CurseForge. Required for CurseForge modpacks.",
+            "env_variable": "CURSEFORGE_API_KEY",
+            "default_value": "",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "nullable|string"
+        },
+        {
+            "name": "Modpack ID",
+            "description": "The modpack provider to use for the installation.",
+            "env_variable": "MODPACK_ID",
+            "default_value": "",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string",
+            "field_type": "text"
+        },
+        {
+            "name": "Modpack Version ID",
+            "description": "The modpack version ID to use for the installation.",
+            "env_variable": "MODPACK_VERSION_ID",
+            "default_value": "",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string",
+            "field_type": "text"
+        },
+        {
+            "name": "Modpack Provider",
+            "description": "The modpack provider to use for the installation.",
+            "env_variable": "MODPACK_PROVIDER",
+            "default_value": "",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string|in:curseforge,modrinth,feedthebeast,ftb",
+            "field_type": "text"
+        },
+        {
+            "name": "Delete Server Files",
+            "description": "Whether to delete existing server files before installation.",
+            "env_variable": "DELETE_SERVER_FILES",
+            "default_value": "true",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|boolean",
+            "field_type": "text"
+        }
+    ]
+}

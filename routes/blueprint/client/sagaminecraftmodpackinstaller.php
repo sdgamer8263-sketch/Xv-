@@ -1,0 +1,1 @@
+../../../.blueprint/extensions/sagaminecraftmodpackinstaller/routers/client.php

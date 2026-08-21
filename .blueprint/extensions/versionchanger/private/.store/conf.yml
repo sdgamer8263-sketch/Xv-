@@ -1,0 +1,32 @@
+info:
+  name: "Minecraft Version Changer"
+  identifier: "versionchanger"
+  description: "Minecraft Version Changer allows you to adjust your minecraft servers version instantly."
+  flags: "hasInstallScript,hasRemovalScript"
+  version: "1.1.0"
+  target: "beta-2024-07"
+  author: "0x7d8"
+  icon: "versionchanger_icon.jpg"
+
+admin:
+  view: "admin.blade.php"
+  controller: ""
+  css: ""
+  wrapper: ""
+
+dashboard:
+  css: ""
+  wrapper: ""
+  components: "components"
+
+data:
+  public: "public"
+  directory: "data"
+
+requests:
+  views: ""
+  controllers: "controllers"
+  routers:
+    application: ""
+    client: "router/client.php"
+    web: ""

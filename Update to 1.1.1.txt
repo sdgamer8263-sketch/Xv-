@@ -1,0 +1,4 @@
+1, Paste PanelFiles to your panel with overwrite
+2, Run this commands:
+   - yarn build
+   - php artisan optimize
